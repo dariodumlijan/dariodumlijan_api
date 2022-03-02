@@ -6,12 +6,12 @@
 # Read more: https://github.com/cyu/rack-cors
 
 # Allow requests from subdomains
-Rails.application.config.hosts << /.*\.dariodumlijan\.com/
+Rails.application.config.hosts << "dariodumlijan.herokuapp.com"
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # origins "*"
-    origins "https://dariodumlijan.com:3000"
+    origins "https://dariodumlijan.com"
     resource "/mail",
       :headers => :any,
       :expose  => ["Authorization"],
