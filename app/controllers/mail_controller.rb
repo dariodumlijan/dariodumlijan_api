@@ -1,28 +1,30 @@
 class MailController < ApplicationController
+  require "dotenv/load"
   require "sendgrid-ruby"
   include SendGrid
   
   def send
-    params.require(:authorization)
+    token = request.headers["Authorization"].sub("Bearer ", "")
     params.require(:from)
     params.require(:to)
     params.require(:subject)
     params.require(:body)
-    TOKEN = params[:authorization]
 
-    if TOKEN == ENV["SENDGRID_API_KEY"]
-      FROM = SendGrid::Email.new(email: params[:from])
-      TO = SendGrid::Email.new(email: params[:to])
-      SUBJECT = params[:subject]
-      BODY = SendGrid::Content.new(type: "text/plain", value: params[:body])
-      EMAIL = SendGrid::Mail.new(FROM, SUBJECT, TO, BODY)
+    if token == ENV["SENDGRID_API_KEY"]
+      from = SendGrid::Email.new(email: params[:from])
+      to = SendGrid::Email.new(email: params[:to])
+      subject = params[:subject]
+      body = SendGrid::Content.new(type: "text/plain", value: params[:body])
+      email = SendGrid::Mail.new(from, subject, to, body)
 
-      SG = SendGrid::API.new(api_key: TOKEN)
-      RESPONSE = SG.client.mail._("send").post(request_body: EMAIL.to_json)
-      # puts RESPONSE.body
-      # puts RESPONSE.parsed_body
-      # puts RESPONSE.headers
-      # puts RESPONSE.status_code
+      sendgrid = SendGrid::API.new(api_key: token)
+      response = sendgrid.client.mail._("send").post(request_body: email.to_json)
+      # puts "___________________"
+      # puts response.body
+      # puts response.parsed_body
+      # puts response.headers
+      # puts response.status_code
+      # puts "___________________"
     end
   end
 end
