@@ -10,7 +10,22 @@ Rails.application.config.hosts << "dariodumlijan.herokuapp.com"
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # origins "*"
+    origins "http://localhost:3000"
+    resource "/mail",
+      :headers => :any,
+      :expose  => ["Authorization"],
+      :methods => [:post]
+  end
+
+  allow do
+    origins "https://staging.dariodumlijan.com"
+    resource "/mail",
+      :headers => :any,
+      :expose  => ["Authorization"],
+      :methods => [:post]
+  end
+  
+  allow do
     origins "https://dariodumlijan.com"
     resource "/mail",
       :headers => :any,
