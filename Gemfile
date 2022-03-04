@@ -19,10 +19,15 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+
+# Use env in rails
 gem 'dotenv'
 
 # Sendgrid mailer
 gem 'sendgrid-ruby'
+
+# New Relic for pinging
+gem 'newrelic_rpm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
